@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import {
   SafeAreaView,
   StyleSheet,
@@ -8,7 +8,39 @@ import {
   Alert,
 } from 'react-native'
 
+const API_URL = 'https://cors-anywhere.herokuapp.com/http://www.recipepuppy.com/api/'
+
+interface Recipe {
+  title: string,
+  ingredients: string,
+  thumbnail: string,
+  href: string,
+}
+
+const fetchRecipes = async (ingredients: string, page: number): Promise<Recipe[]> => {
+  const url = `${API_URL}?i=${ingredients}&p=${page}`
+  // TODO: Error handling
+  const data = await fetch(url, {
+    headers: {
+      'Content-Type': 'application/json',
+      Origin: 'localhost',
+    },
+  })
+  const json = await data.json()
+  return json.results
+}
+
 const App = () => {
+  const [recipes, setRecipes] = useState<Recipe[]>([])
+
+  useEffect(() => {
+    fetchRecipes('onions', 1).then(result => {
+      setRecipes(result)
+    })
+  }, [])
+
+  console.log('Rerender', recipes)
+
   return (
     <Fragment>
       <StatusBar barStyle="dark-content" />
