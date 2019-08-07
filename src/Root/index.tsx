@@ -1,11 +1,12 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import {
   SafeAreaView,
   StyleSheet,
   View,
   TextInput,
+  TextInputSubmitEditingEventData,
+  NativeSyntheticEvent,
   StatusBar,
-  Alert,
 } from 'react-native'
 
 const API_URL = 'https://cors-anywhere.herokuapp.com/http://www.recipepuppy.com/api/'
@@ -30,14 +31,16 @@ const fetchRecipes = async (ingredients: string, page: number): Promise<Recipe[]
   return json.results
 }
 
+type OnSubmitEvent = NativeSyntheticEvent<TextInputSubmitEditingEventData>
+
 const App = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([])
 
-  useEffect(() => {
-    fetchRecipes('onions', 1).then(result => {
+  const onSubmit = ({ nativeEvent: { text } }: OnSubmitEvent) => {
+    fetchRecipes(text, 1).then(result => {
       setRecipes(result)
     })
-  }, [])
+  }
 
   console.log('Rerender', recipes)
 
@@ -48,10 +51,8 @@ const App = () => {
         <View style={styles.container}>
           <TextInput
             style={styles.search}
-            onSubmitEditing={() => {
-              Alert.alert('On submit editing')
-            }}
-            placeholder="onion, carrot"
+            onSubmitEditing={onSubmit}
+            placeholder="onions, carrots"
             placeholderTextColor="gray"
             selectionColor="green"
             returnKeyType="search"
