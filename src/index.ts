@@ -1,5 +1,13 @@
-
 import { AppRegistry } from 'react-native'
-import App from './Root'
+import { createAppContainer, createStackNavigator } from 'react-navigation'
 
-AppRegistry.registerComponent('iFM', () => App)
+import { HomeScreen } from './screens'
+
+const navigator = createStackNavigator({
+    Home: HomeScreen,
+})
+
+const AppContainer = createAppContainer(navigator)
+
+
+AppRegistry.registerComponent('iFM', () => AppContainer)

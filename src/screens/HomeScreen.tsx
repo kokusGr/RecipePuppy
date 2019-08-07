@@ -49,7 +49,7 @@ const fakeData = [{title: "Magic  Prime Rib Recipe", href: "http://www.recipezaa
 {title: "Grilled Flank Steak With Pebre", href: "http://www.recipezaar.com/grilled-flank-steak-with-pebre-378533", ingredients: "beef", thumbnail: "http://img.recipepuppy.com/716734.jpg"},
 {title: "↵Dried Beef Cheese Ball Recipe↵↵", href: "http://cookeatshare.com/recipes/dried-beef-cheese-ball-28184", ingredients: "beef", thumbnail: "http://img.recipepuppy.com/774441.jpg"}]
 
-const App = () => {
+const HomeScreen = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([])
 
   const onSubmit = ({ nativeEvent: { text } }: OnSubmitEvent) => {
@@ -136,4 +136,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default App
+export default HomeScreen
