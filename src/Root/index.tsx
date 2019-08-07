@@ -59,8 +59,6 @@ const App = () => {
     setRecipes(fakeData)
   }
 
-  console.log('Rerender', recipes)
-
   return (
     <Fragment>
       <StatusBar barStyle="dark-content" />
@@ -82,13 +80,17 @@ const App = () => {
             data={recipes}
             keyExtractor={keyExtractor}
             renderItem={({ item }) => (
-              <View style={styles.listItem}>
-                <Image
-                  source={{ uri: item.thumbnail }}
-                  style={{ height: 64, width: 64, backgroundColor: 'red' }}
-                />
-                <Text numberOfLines={3} style={styles.listItemTitle}>{item.title}</Text>
-              </View>
+              <>
+                <View style={styles.listItem}>
+                  <Image
+                    source={{ uri: item.thumbnail }}
+                    style={{ height: 56, width: 56, backgroundColor: 'gray' }}
+                  />
+                  <View style={styles.textContainer}>
+                    <Text numberOfLines={3} style={styles.listItemTitle}>{item.title}</Text>
+                  </View>
+                </View>
+              </>
             )}
           />
         </View>
@@ -113,16 +115,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   listItem: {
-    height: 64,
+    height: 88,
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 8,
+    marginHorizontal: 8,
     paddingRight: 16,
   },
   listItemTitle: {
     flex: 1,
-    fontSize: 14,
-    paddingLeft: 8,
+    fontSize: 15,
+  },
+  textContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomColor: 'gray',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    height: 88,
+    marginLeft: 24,
   },
 })
 
