@@ -8,6 +8,7 @@ import {
   TextInputSubmitEditingEventData,
   NativeSyntheticEvent,
   StatusBar,
+  Image,
   FlatList,
 } from 'react-native'
 
@@ -82,7 +83,10 @@ const App = () => {
             keyExtractor={keyExtractor}
             renderItem={({ item }) => (
               <View style={styles.listItem}>
-                <View style={{ height: 64, width: 64, backgroundColor: 'red' }} />
+                <Image
+                  source={{ uri: item.thumbnail }}
+                  style={{ height: 64, width: 64, backgroundColor: 'red' }}
+                />
                 <Text numberOfLines={3} style={styles.listItemTitle}>{item.title}</Text>
               </View>
             )}
