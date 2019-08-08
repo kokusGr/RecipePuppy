@@ -11,26 +11,9 @@ import { NavigationScreenProps } from 'react-navigation'
 import RecipesList from '../components/RecipesList'
 import Placeholder from '../components/Placeholder'
 
+import { fetchRecipes } from '../api'
 import variables from '../variables'
 import { Recipe } from '../types'
-
-const API_URL = 'https://cors-anywhere.herokuapp.com/http://www.recipepuppy.com/api/'
-
-const fetchRecipes = async (ingredients: string, page: number): Promise<Recipe[]> => {
-  const url = `${API_URL}?i=${ingredients}&p=${page}`
-  const data = await fetch(url, {
-    headers: {
-      'Content-Type': 'application/json',
-      Origin: 'localhost',
-    },
-  })
-  try {
-    const json = await data.json()
-    return json.results
-  } catch (_e) {
-    return []
-  }
-}
 
 interface Props extends NavigationScreenProps { }
 

@@ -2,12 +2,14 @@ import React from 'react'
 import { View, Text, Image, StyleSheet, Button, Alert, Linking } from 'react-native'
 import { NavigationScreenProps } from 'react-navigation'
 
+import { Recipe } from '../types'
+
 import variables from '../variables'
 
 interface Props extends NavigationScreenProps {}
 
 const DetailsScreen = ({ navigation }: Props) => {
-  const recipe = navigation.getParam('item')
+  const recipe: Recipe = navigation.getParam('item')
 
   const openRecipeUrl = () => {
     Linking.openURL(recipe.href).catch(() => {
@@ -20,7 +22,7 @@ const DetailsScreen = ({ navigation }: Props) => {
       <View style={styles.imageContainer}>
         <Image source={{ uri: recipe.thumbnail }} style={styles.image} />
       </View>
-      <Text style={styles.title}>{recipe.title.trim()}</Text>
+      <Text style={styles.title}>{recipe.title}</Text>
       <Text style={styles.ingredients}>{recipe.ingredients}</Text>
       <Button title="Find out more" color={variables.primaryColor} onPress={openRecipeUrl} />
     </View>
