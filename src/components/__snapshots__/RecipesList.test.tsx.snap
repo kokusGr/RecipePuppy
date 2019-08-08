@@ -1,0 +1,119 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<RCTScrollView
+  contentContainerStyle={
+    Object {
+      "paddingHorizontal": 4,
+    }
+  }
+  data={
+    Array [
+      Object {
+        "href": "https://someurl.com",
+        "ingredients": "onions, carrot",
+        "thumbnail": "https://someimage.com",
+        "title": "Some title",
+      },
+    ]
+  }
+  disableVirtualization={false}
+  getItem={[Function]}
+  getItemCount={[Function]}
+  horizontal={false}
+  initialNumToRender={10}
+  keyExtractor={[Function]}
+  maxToRenderPerBatch={10}
+  numColumns={1}
+  onContentSizeChange={[Function]}
+  onEndReachedThreshold={2}
+  onLayout={[Function]}
+  onMomentumScrollEnd={[Function]}
+  onScroll={[Function]}
+  onScrollBeginDrag={[Function]}
+  onScrollEndDrag={[Function]}
+  removeClippedSubviews={false}
+  renderItem={[Function]}
+  scrollEventThrottle={50}
+  stickyHeaderIndices={Array []}
+  updateCellsBatchingPeriod={50}
+  viewabilityConfigCallbackPairs={Array []}
+  windowSize={21}
+>
+  <View>
+    <View
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        accessible={true}
+        clickable={true}
+        isTVSelectable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "opacity": 1,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "height": 88,
+              "marginHorizontal": 8,
+              "paddingRight": 16,
+            }
+          }
+        >
+          <Image
+            source={
+              Object {
+                "uri": "https://someimage.com",
+              }
+            }
+            style={
+              Object {
+                "backgroundColor": "gray",
+                "height": 56,
+                "width": 56,
+              }
+            }
+          />
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "borderBottomWidth": 0.5,
+                "flex": 1,
+                "flexDirection": "row",
+                "height": 88,
+                "marginLeft": 24,
+              }
+            }
+          >
+            <Text
+              numberOfLines={3}
+              style={
+                Object {
+                  "flex": 1,
+                  "fontSize": 15,
+                }
+              }
+            >
+              Some title
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</RCTScrollView>
+`;

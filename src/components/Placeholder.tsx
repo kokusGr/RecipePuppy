@@ -10,7 +10,7 @@ const Placeholder = ({ query }: Props) => {
   return (
     <View style={styles.root}>
       <Text style={styles.heading}>We couldn't find any recipes matching these ingredients: </Text>
-      <Text style={styles.query}>{query}</Text>
+      <Text testID="query" style={styles.query}>{query}</Text>
     </View>
   )
 }
