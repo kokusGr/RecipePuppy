@@ -3,106 +3,93 @@ import {
   SafeAreaView,
   StyleSheet,
   View,
-  Text,
   TextInput,
-  TextInputSubmitEditingEventData,
-  NativeSyntheticEvent,
   StatusBar,
-  Image,
-  FlatList,
-  TouchableOpacity,
 } from 'react-native'
 import { NavigationScreenProps } from 'react-navigation'
 
+import RecipesList from '../components/RecipesList'
+import Placeholder from '../components/Placeholder'
+
 import variables from '../variables'
+import { Recipe } from '../types'
 
 const API_URL = 'https://cors-anywhere.herokuapp.com/http://www.recipepuppy.com/api/'
 
-interface Recipe {
-  title: string,
-  ingredients: string,
-  thumbnail: string,
-  href: string,
-}
-
-const keyExtractor = (item: Recipe) => item.href
-
 const fetchRecipes = async (ingredients: string, page: number): Promise<Recipe[]> => {
   const url = `${API_URL}?i=${ingredients}&p=${page}`
-  // TODO: Error handling
   const data = await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
       Origin: 'localhost',
     },
   })
-  const json = await data.json()
-  return json.results
+  try {
+    const json = await data.json()
+    return json.results
+  } catch (_e) {
+    return []
+  }
 }
 
-type OnSubmitEvent = NativeSyntheticEvent<TextInputSubmitEditingEventData>
+interface Props extends NavigationScreenProps { }
 
-const fakeData = [{title: "Magic  Prime Rib Recipe", href: "http://www.recipezaar.com/Magic-Prime-Rib-Recipe-126865", ingredients: "beef", thumbnail: "http://img.recipepuppy.com/350074.jpg"},
-{title: "Wild Ginger's Seven Flavor Beef", href: "http://www.recipezaar.com/Wild-Gingers-Seven-Flavor-Beef-236899", ingredients: "beef", thumbnail: "http://img.recipepuppy.com/349520.jpg"},
-{title: "Shepherds Pie Vintage Recipe Clipping Recipe", href: "http://www.grouprecipes.com/44811/shepherds-pie-vintage-recipe-clipping.html", ingredients: "beef", thumbnail: "http://img.recipepuppy.com/251328.jpg"},
-{title: "Gracie Allens Classic Recipe For Roast Beef Recipe", href: "http://www.grouprecipes.com/44954/gracie-allens-classic-recipe-for-roast-beef.html", ingredients: "beef, beef", thumbnail: "http://img.recipepuppy.com/257630.jpg"},
-{title: "Shortcut BBQ Brisket", href: "http://www.chow.com/recipes/10630", ingredients: "beef, beef", thumbnail: "http://img.recipepuppy.com/502065.jpg"},
-{title: "Thai-Style Melon & Beef Salad", href: "http://www.eatingwell.com/recipes/thai_melon_beef_salad.html", ingredients: "beef", thumbnail: "http://img.recipepuppy.com/691764.jpg"},
-{title: "Moroccan Vegetable Soup (Chorba)", href: "http://www.eatingwell.com/recipes/moroccan_vegetable_soup.html", ingredients: "beef", thumbnail: "http://img.recipepuppy.com/696530.jpg"},
-{title: "↵Beef Jerky Recipe↵↵", href: "http://cookeatshare.com/recipes/beef-jerky-25384", ingredients: "beef", thumbnail: "http://img.recipepuppy.com/708722.jpg"},
-{title: "Grilled Flank Steak With Pebre", href: "http://www.recipezaar.com/grilled-flank-steak-with-pebre-378533", ingredients: "beef", thumbnail: "http://img.recipepuppy.com/716734.jpg"},
-{title: "↵Dried Beef Cheese Ball Recipe↵↵", href: "http://cookeatshare.com/recipes/dried-beef-cheese-ball-28184", ingredients: "beef", thumbnail: "http://img.recipepuppy.com/774441.jpg"}]
-
-interface Props extends NavigationScreenProps {}
+const byTitle = (recipe1: Recipe, recipe2: Recipe) => recipe1.title.localeCompare(recipe2.title)
 
 const HomeScreen = ({ navigation }: Props) => {
   const [recipes, setRecipes] = useState<Recipe[]>([])
+  const [lastPage, setLastPage] = useState(1)
+  const [query, setQuery] = useState('')
+  const [error, setError] = useState('')
 
-  const onSubmit = ({ nativeEvent: { text } }: OnSubmitEvent) => {
-    // fetchRecipes(text, 1).then(result => {
-    //   setRecipes(result)
-    // })
-    setRecipes(fakeData)
+  const onSubmit = async () => {
+    const result = await fetchRecipes(query, 1)
+    if (result.length !== 0) {
+      setRecipes(result.sort(byTitle))
+      setLastPage(1)
+    } else {
+      setError('EMPTY')
+    }
+  }
+
+  const loadMoreRecipes = async () => {
+    const result = await fetchRecipes(query, lastPage + 1)
+    setRecipes(savedRecipes => [...savedRecipes, ...result.sort(byTitle)])
+    setLastPage(page => page + 1)
+  }
+
+  const onChangeText = (text: string) => {
+    if (error === 'EMPTY') {
+      setError('')
+    }
+    setQuery(text)
   }
 
   return (
     <Fragment>
       <StatusBar barStyle="light-content" />
       <SafeAreaView style={styles.safeArea}>
-          <View style={styles.searchContainer}>
-            <TextInput
-              style={styles.search}
-              onSubmitEditing={onSubmit}
-              placeholder="onions, carrots"
-              placeholderTextColor="gray"
-              selectionColor={variables.primaryColor}
-              returnKeyType="search"
-              autoCapitalize="none"
-              autoCompleteType="off"
-              autoCorrect={false}
-              autoFocus={true}
-            />
-          </View>
-          <FlatList
-            data={recipes}
-            keyExtractor={keyExtractor}
-            contentContainerStyle={styles.flatListContent}
-            renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => {
-                navigation.navigate('Details', { item })
-              }}>
-                <View style={styles.listItem}>
-                  <Image
-                    source={{ uri: item.thumbnail }}
-                    style={{ height: 56, width: 56, backgroundColor: 'gray' }}
-                  />
-                  <View style={styles.textContainer}>
-                    <Text numberOfLines={3} style={styles.listItemTitle}>{item.title}</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            )}
+        <View style={styles.searchContainer}>
+          <TextInput
+            style={styles.search}
+            onSubmitEditing={onSubmit}
+            placeholder="onions, carrots"
+            placeholderTextColor="gray"
+            selectionColor={variables.primaryColor}
+            returnKeyType="search"
+            autoCapitalize="none"
+            autoCompleteType="off"
+            autoCorrect={false}
+            autoFocus={true}
+            value={query}
+            onChangeText={onChangeText}
           />
+        </View>
+        {error === 'EMPTY' ? (
+          <Placeholder query={query} />
+        ) : (
+          <RecipesList recipes={recipes} navigation={navigation} onEndReached={loadMoreRecipes} />
+        )}
       </SafeAreaView>
     </Fragment>
   );
@@ -120,28 +107,6 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     height: 40,
     paddingHorizontal: 16,
-  },
-  flatListContent: {
-    paddingHorizontal: 4,
-  },
-  listItem: {
-    height: 88,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginHorizontal: 8,
-    paddingRight: 16,
-  },
-  listItemTitle: {
-    flex: 1,
-    fontSize: 15,
-  },
-  textContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    height: 88,
-    marginLeft: 24,
   },
 })
 
