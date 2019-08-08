@@ -85,7 +85,7 @@ const HomeScreen = ({ navigation }: Props) => {
             keyExtractor={keyExtractor}
             renderItem={({ item }) => (
               <TouchableOpacity onPress={() => {
-                navigation.navigate('Details')
+                navigation.navigate('Details', { item })
               }}>
                 <View style={styles.listItem}>
                   <Image
