@@ -14,6 +14,8 @@ import {
 } from 'react-native'
 import { NavigationScreenProps } from 'react-navigation'
 
+import variables from '../variables'
+
 const API_URL = 'https://cors-anywhere.herokuapp.com/http://www.recipepuppy.com/api/'
 
 interface Recipe {
@@ -65,24 +67,26 @@ const HomeScreen = ({ navigation }: Props) => {
 
   return (
     <Fragment>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="light-content" />
       <SafeAreaView style={styles.safeArea}>
-        <View style={styles.container}>
-          <TextInput
-            style={styles.search}
-            onSubmitEditing={onSubmit}
-            placeholder="onions, carrots"
-            placeholderTextColor="gray"
-            selectionColor="green"
-            returnKeyType="search"
-            autoCapitalize="none"
-            autoCompleteType="off"
-            autoCorrect={false}
-            autoFocus={true}
-          />
+          <View style={styles.searchContainer}>
+            <TextInput
+              style={styles.search}
+              onSubmitEditing={onSubmit}
+              placeholder="onions, carrots"
+              placeholderTextColor="gray"
+              selectionColor={variables.primaryColor}
+              returnKeyType="search"
+              autoCapitalize="none"
+              autoCompleteType="off"
+              autoCorrect={false}
+              autoFocus={true}
+            />
+          </View>
           <FlatList
             data={recipes}
             keyExtractor={keyExtractor}
+            contentContainerStyle={styles.flatListContent}
             renderItem={({ item }) => (
               <TouchableOpacity onPress={() => {
                 navigation.navigate('Details', { item })
@@ -99,7 +103,6 @@ const HomeScreen = ({ navigation }: Props) => {
               </TouchableOpacity>
             )}
           />
-        </View>
       </SafeAreaView>
     </Fragment>
   );
@@ -109,16 +112,17 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
   },
-  container: {
-    flex: 1,
-    paddingHorizontal: 4,
-    paddingTop: 20,
+  searchContainer: {
+    padding: 16,
   },
   search: {
     fontSize: 16,
-    borderWidth: 1,
+    borderWidth: StyleSheet.hairlineWidth,
     height: 40,
     paddingHorizontal: 16,
+  },
+  flatListContent: {
+    paddingHorizontal: 4,
   },
   listItem: {
     height: 88,
@@ -135,7 +139,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    borderBottomColor: 'gray',
     borderBottomWidth: StyleSheet.hairlineWidth,
     height: 88,
     marginLeft: 24,

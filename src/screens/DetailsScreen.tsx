@@ -2,6 +2,8 @@ import React from 'react'
 import { View, Text, Image, StyleSheet, Button, Alert, Linking } from 'react-native'
 import { NavigationScreenProps } from 'react-navigation'
 
+import variables from '../variables'
+
 interface Props extends NavigationScreenProps {}
 
 const DetailsScreen = ({ navigation }: Props) => {
@@ -20,7 +22,7 @@ const DetailsScreen = ({ navigation }: Props) => {
       </View>
       <Text style={styles.title}>{recipe.title}</Text>
       <Text style={styles.ingredients}>{recipe.ingredients}</Text>
-      <Button title="Find out more" onPress={openRecipeUrl} />
+      <Button title="Find out more" color={variables.primaryColor} onPress={openRecipeUrl} />
     </View>
   )
 }
@@ -46,11 +48,13 @@ const styles = StyleSheet.create({
     fontSize: 22,
     textAlign: 'center',
     paddingHorizontal: 16,
+    marginBottom: 8,
   },
   ingredients: {
     fontSize: 14,
     color: 'gray',
-  }
+    marginBottom: 16,
+  },
 })
 
 export default DetailsScreen
