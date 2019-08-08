@@ -20,7 +20,7 @@ const DetailsScreen = ({ navigation }: Props) => {
       <View style={styles.imageContainer}>
         <Image source={{ uri: recipe.thumbnail }} style={styles.image} />
       </View>
-      <Text style={styles.title}>{recipe.title}</Text>
+      <Text style={styles.title}>{recipe.title.trim()}</Text>
       <Text style={styles.ingredients}>{recipe.ingredients}</Text>
       <Button title="Find out more" color={variables.primaryColor} onPress={openRecipeUrl} />
     </View>
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     borderBottomColor: 'gray',
     borderBottomWidth: StyleSheet.hairlineWidth,
-    marginBottom: 20,
+    marginBottom: 40,
   },
   image: {
     width: 200,
@@ -47,13 +47,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     textAlign: 'center',
-    paddingHorizontal: 16,
     marginBottom: 8,
+    paddingHorizontal: 16,
   },
   ingredients: {
-    fontSize: 14,
+    fontSize: 12,
     color: 'gray',
-    marginBottom: 16,
+    marginBottom: 40,
   },
 })
 

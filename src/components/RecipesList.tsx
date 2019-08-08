@@ -34,7 +34,7 @@ const RecipesList = ({ recipes, onEndReached, navigation }: Props) => {
               style={{ height: 56, width: 56, backgroundColor: 'gray' }}
             />
             <View style={styles.textContainer}>
-              <Text numberOfLines={3} style={styles.listItemTitle}>{item.title}</Text>
+              <Text numberOfLines={3} style={styles.listItemTitle}>{item.title.trim()}</Text>
             </View>
           </View>
         </TouchableOpacity>
