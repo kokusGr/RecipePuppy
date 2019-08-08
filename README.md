@@ -4,8 +4,9 @@
 
 1. Install dependencies using `yarn`.
 2. Go to `./iOS` and run `pod install`.
-3. Use `yarn dev` to run the Metro bundler.
-4. Use `yarn start:ios` or `yarn start:android` to run the app in the development mode.
+3. Use `npx jetify` if needed.
+4. Use `yarn dev` to run the Metro bundler.
+5. Use `yarn start:ios` or `yarn start:android` to run the app in the development mode.
 
 ### Requirements
 
